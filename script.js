@@ -3,30 +3,56 @@ const SUPABASE_KEY = "sb_publishable_r885Rez5bZWiO0nfToFI-w_bqi_zvoU";
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-document.getElementById("searchBtn").addEventListener("click", async () => {
-  const name = document.getElementById("searchName").value;
-  const color = document.getElementById("searchColor").value;
+// 初期表示：全カード一覧
+window.onload = async () => {
+  const { data } = await client.from("cards").select("*");
+  renderCards(data);
+};
 
+// 検索ボタン
+document.getElementById("searchBtn").addEventListener("click", async () => {
   let query = client.from("cards").select("*");
 
-  if (name) {
-    query = query.ilike("名称", `%${name}%`);
-  }
+  const fields = [
+    "名称",
+    "カード番号",
+    "レアリティ",
+    "色",
+    "種別",
+    "レベル",
+    "魔力コスト",
+    "パワー",
+    "特性",
+    "検索タグ"
+  ];
 
-  if (color) {
-    query = query.eq("色", color);
-  }
+  fields.forEach(field => {
+    const value = document.getElementById(field).value;
+    if (value) {
+      if (["レベル", "魔力コスト", "パワー"].includes(field)) {
+        query = query.eq(field, Number(value));
+      } else {
+        query = query.ilike(field, `%${value}%`);
+      }
+    }
+  });
 
   const { data, error } = await query;
-
-  if (error) {
-    console.error(error);
-    return;
-  }
+  if (error) console.error(error);
 
   renderCards(data);
 });
 
+// リセットボタン
+document.getElementById("resetBtn").addEventListener("click", async () => {
+  const inputs = document.querySelectorAll("#search-area input");
+  inputs.forEach(i => i.value = "");
+
+  const { data } = await client.from("cards").select("*");
+  renderCards(data);
+});
+
+// カード表示
 function renderCards(cards) {
   const result = document.getElementById("result");
   result.innerHTML = "";
@@ -37,12 +63,15 @@ function renderCards(cards) {
 
     div.innerHTML = `
       <h2>${card.名称}</h2>
-      <p>色：${card.色}</p>
+      <p>カード番号：${card.カード番号}</p>
       <p>レアリティ：${card.レアリティ}</p>
+      <p>色：${card.色}</p>
+      <p>種別：${card.種別}</p>
       <p>レベル：${card.レベル}</p>
+      <p>魔力コスト：${card.魔力コスト}</p>
       <p>パワー：${card.パワー}</p>
-      <p>${card.ルールテキスト}</p>
-      <p>${card.検索タグ}</p>
+      <p>特性：${card.特性}</p>
+      <p>タグ：${card.検索タグ}</p>
     `;
 
     result.appendChild(div);
