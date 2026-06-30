@@ -1,0 +1,31 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+}
+
+#result {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.card {
+  border: 1px solid #ccc;
+  padding: 12px;
+  width: 260px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.tag {
+  background: #eee;
+  padding: 4px 8px;
+  margin-right: 4px;
+  border-radius: 4px;
+  font-size: 12px;
+}
