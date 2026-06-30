@@ -63,8 +63,7 @@ function renderCards(cards) {
 
     div.innerHTML = `
       <h2>${card.名称}</h2>
-      <p>カード番号：${card.カード番号}</p>
-      <p>レアリティ：${card.レアリティ}</p>
+      <p>カード詳細：${card.収録版} ${card.カード番号} ${card.レアリティ} ${card.収録}</p>
       <p>色：${card.色}</p>
       <p>種別：${card.種別}</p>
       <p>レベル：${card.レベル}</p>
@@ -72,7 +71,9 @@ function renderCards(cards) {
       <p>パワー：${card.パワー}</p>
       <p>特性：${card.特性}</p>
       <p>タグ：${card.検索タグ}</p>
-      <p>説明：${card.説明}</p>
+      <p>ルールテキスト：${card.ルールテキスト}</p>
+      <p>遺業能力：${card.遺業能力}</p>
+
     `;
 
     result.appendChild(div);
