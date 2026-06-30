@@ -72,6 +72,7 @@ function renderCards(cards) {
       <p>パワー：${card.パワー}</p>
       <p>特性：${card.特性}</p>
       <p>タグ：${card.検索タグ}</p>
+      <p>説明：${card.説明}</p>
     `;
 
     result.appendChild(div);
