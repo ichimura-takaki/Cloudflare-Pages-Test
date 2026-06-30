@@ -23,17 +23,21 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
     "魔力コスト",
     "パワー",
     "特性",
+    "ルールテキスト",
     "検索タグ"
   ];
 
   fields.forEach(field => {
     const value = document.getElementById(field).value;
     if (value) {
-      if (["レベル", "魔力コスト", "パワー"].includes(field)) {
+        if (["レベル", "魔力コスト", "パワー"].includes(field)) {
         query = query.eq(field, Number(value));
-      } else {
+        } else if (field === "ルールテキスト") {
+        // ★ 日本語長文は ilike ではなく FTS を使う
+        query = query.textSearch(field, value, { type: "websearch" });
+        } else {
         query = query.ilike(field, `%${value}%`);
-      }
+        }
     }
   });
 
@@ -56,6 +60,12 @@ document.getElementById("resetBtn").addEventListener("click", async () => {
 function renderCards(cards) {
   const result = document.getElementById("result");
   result.innerHTML = "";
+
+  // ★ 追加：検索結果が0件なら赤文字で表示
+  if (!cards || cards.length === 0) {
+    result.innerHTML = `<p style="color:red; font-weight:bold;">検索結果がありませんでした。</p>`;
+    return;
+  }
 
   cards.forEach(card => {
     const div = document.createElement("div");
