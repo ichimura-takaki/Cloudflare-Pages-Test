@@ -63,7 +63,9 @@ function renderCards(cards) {
 
   // ★ 追加：検索結果が0件なら赤文字で表示
   if (!cards || cards.length === 0) {
-    result.innerHTML = `<p style="color:red; font-weight:bold;">検索結果がありませんでした。</p>`;
+    result.innerHTML = `<p style="color:red; font-weight:bold;">検索結果がありませんでした。</p>
+    <p>テキスト検索うまく動かないわすまん！<br>仕事から帰ったらやるね</p>`;
+
     return;
   }
 
