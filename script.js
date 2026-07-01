@@ -24,7 +24,6 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
     "パワー",
     "特性",
     "ルールテキスト",
-    "検索タグ"
   ];
 
 fields.forEach(field => {
