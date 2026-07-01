@@ -27,19 +27,25 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
     "検索タグ"
   ];
 
-  fields.forEach(field => {
+    fields.forEach(field => {
     const value = document.getElementById(field).value;
     if (value) {
+
         if (["レベル", "魔力コスト", "パワー"].includes(field)) {
         query = query.eq(field, Number(value));
+
         } else if (field === "ルールテキスト") {
-        // ★ 日本語長文は ilike ではなく FTS を使う
-        query = query.textSearch(field, value, { type: "websearch" });
+        // ★ 複数語検索（AND）＋部分一致
+        const words = value.split(/\s+/).filter(w => w); // 空白で分割
+        words.forEach(word => {
+            query = query.ilike(field, `%${word}%`);
+        });
+
         } else {
         query = query.ilike(field, `%${value}%`);
         }
     }
-  });
+    });
 
   const { data, error } = await query;
   if (error) console.error(error);
