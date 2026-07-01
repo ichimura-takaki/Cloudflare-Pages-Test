@@ -27,6 +27,10 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
   ];
 
 fields.forEach(field => {
+
+    const input = document.getElementById(field);
+    if (!input) return;   // ★ null を安全にスキップ
+    
   const value = document.getElementById(field).value;
   if (!value) return;
 
