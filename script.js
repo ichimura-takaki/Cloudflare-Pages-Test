@@ -27,25 +27,33 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
     "検索タグ"
   ];
 
-    fields.forEach(field => {
-    const value = document.getElementById(field).value;
-    if (value) {
+   fields.forEach(field => {
+  const value = document.getElementById(field).value;
+  if (!value) return;
 
-        if (["レベル", "魔力コスト", "パワー"].includes(field)) {
-        query = query.eq(field, Number(value));
+  // OR検索（? で区切る）
+  if (value.includes("?")) {
+    const orWords = value.split("?").map(v => v.trim()).filter(v => v);
+    query = query.or(
+      orWords.map(w => `${field}.ilike.%${w}%`).join(",")
+    );
+    return;
+  }
 
-        } else if (field === "ルールテキスト") {
-        // ★ 複数語検索（AND）＋部分一致
-        const words = value.split(/\s+/).filter(w => w); // 空白で分割
-        words.forEach(word => {
-            query = query.ilike(field, `%${word}%`);
-        });
+  // AND / NOT 検索（スペース区切り）
+  const words = value.split(/\s+/).filter(w => w);
 
-        } else {
-        query = query.ilike(field, `%${value}%`);
-        }
+  words.forEach(word => {
+    if (word.startsWith("!")) {
+      // NOT検索
+      const real = word.slice(1);
+      query = query.not.ilike(field, `%${real}%`);
+    } else {
+      // AND検索（デフォルト）
+      query = query.ilike(field, `%${word}%`);
     }
-    });
+  });
+});
 
   const { data, error } = await query;
   if (error) console.error(error);
@@ -69,8 +77,7 @@ function renderCards(cards) {
 
   // ★ 追加：検索結果が0件なら赤文字で表示
   if (!cards || cards.length === 0) {
-    result.innerHTML = `<p style="color:red; font-weight:bold;">検索結果がありませんでした。</p>
-    <p>テキスト検索うまく動かないわすまん！<br>仕事から帰ったらやるね</p>`;
+    result.innerHTML = `<p style="color:red; font-weight:bold;">検索結果がありませんでした。</p>`;
 
     return;
   }

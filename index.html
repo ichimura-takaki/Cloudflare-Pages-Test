@@ -13,17 +13,21 @@
     <input id="名称" placeholder="名称で検索">
     <input id="カード番号" placeholder="カード番号で検索">
     <input id="レアリティ" placeholder="レアリティで検索 (C/R/SR/UR)">
-    <input id="色" placeholder="色で検索 (赤/青/緑)">
-    <input id="種別" placeholder="種別で検索 (イシン/兵器/地形など)">
+    <input id="色" placeholder="色で検索 (赤/青/緑/黄/紫/無)">
+    <input id="種別" placeholder="種別で検索 (イシン/ハイケイ/マホウ/マリョクなど)">
     <input id="レベル" placeholder="レベルで検索 (数値)">
     <input id="魔力コスト" placeholder="魔力コストで検索 (数値)">
     <input id="パワー" placeholder="パワーで検索 (数値)">
     <input id="特性" placeholder="特性で検索 (部分一致)">
     <input id="ルールテキスト" placeholder="ルールテキストで検索 (部分一致)">
-    <input id="検索タグ" placeholder="タグで検索 (部分一致)">
     <button id="searchBtn">検索</button>
     <button id="resetBtn">リセット</button>
   </div>
+  ルールテキストは半角スペース区切りで複数キーワード検索可能です。<br>
+  OR検索は?を使用してください。「召喚権?ドロー」で検索すると「召喚権」または「ドロー」を含むカードが検索されます。<br>
+  NOT検索は!を使用してください。「召喚権!ドロー」で検索すると「召喚権」を含み「ドロー」を含まないカードが検索されます。<br>
+  また、ドロー以外の検索をする際には「!ドロー」で検索をしてください。<br>
+
 
   <div id="result"></div>
 
