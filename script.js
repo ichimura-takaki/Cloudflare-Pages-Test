@@ -27,7 +27,7 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
     "検索タグ"
   ];
 
-   fields.forEach(field => {
+fields.forEach(field => {
   const value = document.getElementById(field).value;
   if (!value) return;
 
@@ -40,14 +40,14 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
     return;
   }
 
-  // AND / NOT 検索（スペース区切り）
+  // AND / NOT検索（スペース区切り）
   const words = value.split(/\s+/).filter(w => w);
 
   words.forEach(word => {
     if (word.startsWith("!")) {
-      // NOT検索
+      // ★ Supabase-js v2 の NOT検索
       const real = word.slice(1);
-      query = query.not.ilike(field, `%${real}%`);
+      query = query.not(field, "ilike", `%${real}%`);
     } else {
       // AND検索（デフォルト）
       query = query.ilike(field, `%${word}%`);
