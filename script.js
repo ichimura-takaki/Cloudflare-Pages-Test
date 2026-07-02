@@ -9,6 +9,26 @@ function display(name) {
   return el ? el.checked : false;
 }
 
+// ✔ チェックボックス全選択
+document.getElementById("checkAllBtn").addEventListener("click", () => {
+  const boxes = document.querySelectorAll("#display-options input[type='checkbox']");
+  boxes.forEach(box => box.checked = true);
+});
+
+// ✔ チェックボックス全解除（画像表示だけ ON）
+document.getElementById("uncheckAllBtn").addEventListener("click", () => {
+  const boxes = document.querySelectorAll("#display-options input[type='checkbox']");
+  boxes.forEach(box => {
+    // 画像表示だけ ON にする
+    if (box.id === "表示_画像格納先") {
+      box.checked = true;
+    } else {
+      box.checked = false;
+    }
+  });
+});
+
+
 // ✔ 初期表示：全カード一覧
 window.onload = async () => {
   const { data } = await client.from("cards").select("*");
