@@ -81,9 +81,10 @@ function renderCards(cards) {
   const result = document.getElementById("result");
   result.innerHTML = "";
 
-  // 件数表示
   const hitCount = document.getElementById("hitCount");
-  hitCount.innerHTML = `<p>検索結果：${cards.length} 件</p>`;
+  if (hitCount) {
+    hitCount.innerHTML = `<p>検索結果：${cards.length} 件</p>`;
+  }
 
   if (cards.length === 0) {
     result.innerHTML += `<p style="color:red; font-weight:bold;">検索結果がありませんでした。</p>`;
@@ -109,14 +110,12 @@ function renderCards(cards) {
     if (display("Illustration")) html += `<p>Illustration：${card.Illustration}</p>`;
     if (display("ゲストコンセプトデザイン")) html += `<p>ゲストコンセプトデザイン：${card.ゲストコンセプトデザイン}</p>`;
 
-    // ✔ 画像表示（DB のカラム名が 画像格納先 の場合）
-    if (display("画像格納先")) {
-    if (card.画像格納先) {
-        html += `<img src="${card.画像格納先}" class="card-image" alt="card image">`;
-    }
+    if (display("画像格納先") && card.画像格納先) {
+      html += `<img src="${card.画像格納先}" class="card-image" alt="card image">`;
     }
 
     div.innerHTML = html;
     result.appendChild(div);
   });
 }
+
