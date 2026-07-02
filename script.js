@@ -111,9 +111,9 @@ function renderCards(cards) {
 
     // ✔ 画像表示（DB のカラム名が 画像格納先 の場合）
     if (display("画像格納先")) {
-      if (card.画像格納先) {
-        html += `<img src="${card.画像格納先}" alt="card image">`;
-      }
+    if (card.画像格納先) {
+        html += `<img src="${card.画像格納先}" class="card-image" alt="card image">`;
+    }
     }
 
     div.innerHTML = html;
