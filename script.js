@@ -76,17 +76,16 @@ document.getElementById("resetBtn").addEventListener("click", async () => {
 // カード表示
 function renderCards(cards) {
   const result = document.getElementById("result");
-  const hitCount = document.getElementById("hitCount");
-
   result.innerHTML = "";
-  hitCount.innerHTML = "";
 
-  // 件数表示
+  // 件数表示を result の中に入れる
+  const hitCount = document.createElement("div");
+  hitCount.id = "hitCount";
   hitCount.innerHTML = `<p>検索結果：${cards.length} 件</p>`;
+  result.appendChild(hitCount);
 
-  // 0件なら赤文字で表示
-  if (!cards || cards.length === 0) {
-    result.innerHTML = `<p style="color:red; font-weight:bold;">検索結果がありませんでした。</p>`;
+  if (cards.length === 0) {
+    result.innerHTML += `<p style="color:red; font-weight:bold;">検索結果がありませんでした。</p>`;
     return;
   }
 
@@ -106,11 +105,12 @@ function renderCards(cards) {
     if (display("特性")) html += `<p>特性：${card.特性}</p>`;
     if (display("ルールテキスト")) html += `<p>ルールテキスト：${card.ルールテキスト}</p>`;
     if (display("遺業能力")) html += `<p>遺業能力：${card.遺業能力}</p>`;
-    if (display("Illustration")) html += `<p>Illustration：${card.Illustration}</p>`;
+    if (display("Illustlation")) html += `<p>Illustlation：${card.Illustlation}</p>`;
     if (display("画像格納先")) html += `<img src="${card.画像格納先}" alt="card image">`;
 
     div.innerHTML = html;
     result.appendChild(div);
   });
 }
+
 
