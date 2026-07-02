@@ -147,3 +147,42 @@ function renderCards(cards) {
   });
 }
 
+// ✔ 軽量モード：指定項目だけ ON にして検索実行
+document.getElementById("lightModeLink").addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  const targetFields = [
+    "名称",
+    "番号",
+    "色",
+    "種別",
+    "レベル",
+    "魔力コスト",
+    "パワー",
+    "特性",
+    "ルールテキスト",
+    "遺業能力"
+  ];
+
+  // まず全解除（画像だけON）
+  const boxes = document.querySelectorAll("#display-options input[type='checkbox']");
+  boxes.forEach(box => {
+    if (box.id === "表示_画像格納先") {
+      box.checked = false; // 軽量モードなので画像もOFF
+    } else {
+      box.checked = false;
+    }
+  });
+
+  // 指定項目だけ ON
+  targetFields.forEach(name => {
+    const box = document.getElementById("表示_" + name);
+    if (box) box.checked = true;
+  });
+
+  // 検索実行
+  const { data } = await client.from("cards").select("*");
+  renderCards(data);
+});
+
+
