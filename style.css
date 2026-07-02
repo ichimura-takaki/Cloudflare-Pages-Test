@@ -33,3 +33,9 @@ body {
   margin: 0;
   font-size: 18px;
 }
+
+.card-image {
+  width: 200px;
+  height: auto;
+  margin-top: 10px;
+}

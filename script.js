@@ -78,10 +78,8 @@ function renderCards(cards) {
   const result = document.getElementById("result");
   result.innerHTML = "";
 
-  // ★ 追加：検索結果が0件なら赤文字で表示
   if (!cards || cards.length === 0) {
     result.innerHTML = `<p style="color:red; font-weight:bold;">検索結果がありませんでした。</p>`;
-
     return;
   }
 
@@ -89,21 +87,35 @@ function renderCards(cards) {
     const div = document.createElement("div");
     div.className = "card";
 
-    div.innerHTML = `
-      <h2>${card.名称}</h2>
-      <p>カード詳細：${card.収録版} ${card.カード番号} ${card.レアリティ} ${card.収録}</p>
-      <p>色：${card.色}</p>
-      <p>種別：${card.種別}</p>
-      <p>レベル：${card.レベル}</p>
-      <p>魔力コスト：${card.魔力コスト}</p>
-      <p>パワー：${card.パワー}</p>
-      <p>特性：${card.特性}</p>
-      <p>タグ：${card.検索タグ}</p>
-      <p>ルールテキスト：${card.ルールテキスト}</p>
-      <p>遺業能力：${card.遺業能力}</p>
+    let html = "";
 
-    `;
+    // 名称はタイトルとして常に表示
+    html += `<h2>${card.名称}</h2>`;
 
+    // ★ チェックボックス ON の項目だけ表示
+    const display = name => document.getElementById("表示_" + name)?.checked;
+
+    if (display("収録版")) html += `<p>収録版：${card.収録版}</p>`;
+    if (display("カード番号")) html += `<p>カード番号：${card.カード番号}</p>`;
+    if (display("レアリティ")) html += `<p>レアリティ：${card.レアリティ}</p>`;
+    if (display("色")) html += `<p>色：${card.色}</p>`;
+    if (display("種別")) html += `<p>種別：${card.種別}</p>`;
+    if (display("レベル")) html += `<p>レベル：${card.レベル}</p>`;
+    if (display("魔力コスト")) html += `<p>魔力コスト：${card.魔力コスト}</p>`;
+    if (display("パワー")) html += `<p>パワー：${card.パワー}</p>`;
+    if (display("特性")) html += `<p>特性：${card.特性}</p>`;
+    if (display("ルールテキスト")) html += `<p>ルールテキスト：${card.ルールテキスト}</p>`;
+    if (display("遺業能力")) html += `<p>遺業能力：${card.遺業能力}</p>`;
+    if (display("Illustlation")) html += `<p>Illustlation：${card.Illustlation}</p>`;
+    if (display("収録")) html += `<p>収録：${card.収録}</p>`;
+    if (display("ゲストコンセプトデザイン")) html += `<p>ゲストコンセプトデザイン：${card.ゲストコンセプトデザイン}</p>`;
+
+    // ★ 画像表示（デフォルト ON）
+    if (display("画像格納先")) {
+      html += `<img src="${card.画像格納先}" class="card-image">`;
+    }
+
+    div.innerHTML = html;
     result.appendChild(div);
   });
 }
