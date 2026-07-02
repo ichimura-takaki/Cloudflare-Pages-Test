@@ -10,17 +10,17 @@
   <h1>イジンデン カード検索</h1>
 
   <div id="display-options">
+    <label><input type="checkbox" id="表示_名称"> 名称</label>
     <label><input type="checkbox" id="表示_番号"> 番号</label>
     <label><input type="checkbox" id="表示_色"> 色</label>
     <label><input type="checkbox" id="表示_種別"> 種別</label>
-    <label><input type="checkbox" id="表示_名称"> 名称</label>
     <label><input type="checkbox" id="表示_レベル"> レベル</label>
     <label><input type="checkbox" id="表示_魔力コスト"> 魔力コスト</label>
     <label><input type="checkbox" id="表示_パワー"> パワー</label>
     <label><input type="checkbox" id="表示_特性"> 特性</label>
     <label><input type="checkbox" id="表示_ルールテキスト"> ルールテキスト</label>
     <label><input type="checkbox" id="表示_遺業能力"> 遺業能力</label>
-    <label><input type="checkbox" id="表示_Illustlation"> Illustlation</label>
+    <label><input type="checkbox" id="表示_Illustration"> Illustration</label>
     <label><input type="checkbox" id="表示_ゲストコンセプトデザイン"> ゲストコンセプトデザイン</label>
 
     <!-- ★ デフォルト ON -->
@@ -31,7 +31,6 @@
   <div id="search-area">
     <input id="名称" placeholder="名称で検索">
     <input id="番号" placeholder="番号で検索(No1-1SRなど部分一致)">
-    <input id="レアリティ" placeholder="レアリティで検索 (C/R/SR/UR)">
     <input id="色" placeholder="色で検索 (赤/青/緑/黄/紫/無)">
     <input id="種別" placeholder="種別で検索 (イシン/ハイケイ/マホウ/マリョクなど)">
     <input id="レベル" placeholder="レベルで検索 (数値)">
@@ -46,8 +45,7 @@
   OR検索は?を使用してください。NOT検索は!を使用してください。<br>
 
   <div id="result">
-    <!-- <div id="hitCount"></div> -->
-    
+    <div id="hitCount"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>

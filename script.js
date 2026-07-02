@@ -3,6 +3,11 @@ const SUPABASE_KEY = "sb_publishable_r885Rez5bZWiO0nfToFI-w_bqi_zvoU";
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+function display(name) {
+  const el = document.getElementById("表示_" + name);
+  return el ? el.checked : false;
+}
+
 // 初期表示：全カード一覧
 window.onload = async () => {
   const { data } = await client.from("cards").select("*");
@@ -105,7 +110,7 @@ function renderCards(cards) {
     if (display("特性")) html += `<p>特性：${card.特性}</p>`;
     if (display("ルールテキスト")) html += `<p>ルールテキスト：${card.ルールテキスト}</p>`;
     if (display("遺業能力")) html += `<p>遺業能力：${card.遺業能力}</p>`;
-    if (display("Illustlation")) html += `<p>Illustlation：${card.Illustlation}</p>`;
+    if (display("Illustration")) html += `<p>Illustration：${card.Illustration}</p>`;
     if (display("画像格納先")) html += `<img src="${card.画像格納先}" alt="card image">`;
 
     div.innerHTML = html;
