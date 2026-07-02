@@ -13,10 +13,9 @@ window.onload = async () => {
 document.getElementById("searchBtn").addEventListener("click", async () => {
   let query = client.from("cards").select("*");
 
-  const fields = [
+    const fields = [
     "名称",
-    "カード番号",
-    "レアリティ",
+    "番号",          
     "色",
     "種別",
     "レベル",
@@ -24,7 +23,8 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
     "パワー",
     "特性",
     "ルールテキスト",
-  ];
+    ];
+
 
 fields.forEach(field => {
 
@@ -76,8 +76,15 @@ document.getElementById("resetBtn").addEventListener("click", async () => {
 // カード表示
 function renderCards(cards) {
   const result = document.getElementById("result");
-  result.innerHTML = "";
+  const hitCount = document.getElementById("hitCount");
 
+  result.innerHTML = "";
+  hitCount.innerHTML = "";
+
+  // 件数表示
+  hitCount.innerHTML = `<p>検索結果：${cards.length} 件</p>`;
+
+  // 0件なら赤文字で表示
   if (!cards || cards.length === 0) {
     result.innerHTML = `<p style="color:red; font-weight:bold;">検索結果がありませんでした。</p>`;
     return;
@@ -89,15 +96,8 @@ function renderCards(cards) {
 
     let html = "";
 
-    // 名称はタイトルとして常に表示
-    html += `<h2>${card.名称}</h2>`;
-
-    // ★ チェックボックス ON の項目だけ表示
-    const display = name => document.getElementById("表示_" + name)?.checked;
-
-    if (display("収録版")) html += `<p>収録版：${card.収録版}</p>`;
-    if (display("カード番号")) html += `<p>カード番号：${card.カード番号}</p>`;
-    if (display("レアリティ")) html += `<p>レアリティ：${card.レアリティ}</p>`;
+    if (display("番号")) html += `<p>番号：${card.番号}</p>`;
+    if (display("名称")) html += `<p>名称：${card.名称}</p>`;
     if (display("色")) html += `<p>色：${card.色}</p>`;
     if (display("種別")) html += `<p>種別：${card.種別}</p>`;
     if (display("レベル")) html += `<p>レベル：${card.レベル}</p>`;
@@ -106,16 +106,11 @@ function renderCards(cards) {
     if (display("特性")) html += `<p>特性：${card.特性}</p>`;
     if (display("ルールテキスト")) html += `<p>ルールテキスト：${card.ルールテキスト}</p>`;
     if (display("遺業能力")) html += `<p>遺業能力：${card.遺業能力}</p>`;
-    if (display("Illustlation")) html += `<p>Illustlation：${card.Illustlation}</p>`;
-    if (display("収録")) html += `<p>収録：${card.収録}</p>`;
-    if (display("ゲストコンセプトデザイン")) html += `<p>ゲストコンセプトデザイン：${card.ゲストコンセプトデザイン}</p>`;
-
-    // ★ 画像表示（デフォルト ON）
-    if (display("画像格納先")) {
-      html += `<img src="${card.画像格納先}" class="card-image">`;
-    }
+    if (display("Illustration")) html += `<p>Illustration：${card.Illustration}</p>`;
+    if (display("画像格納先")) html += `<img src="${card.画像格納先}" alt="card image">`;
 
     div.innerHTML = html;
     result.appendChild(div);
   });
 }
+

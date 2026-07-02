@@ -10,9 +10,7 @@
   <h1>イジンデン カード検索</h1>
 
   <div id="display-options">
-    <label><input type="checkbox" id="表示_収録版"> 収録版</label>
-    <label><input type="checkbox" id="表示_カード番号"> カード番号</label>
-    <label><input type="checkbox" id="表示_レアリティ"> レアリティ</label>
+    <label><input type="checkbox" id="表示_番号"> 番号</label>
     <label><input type="checkbox" id="表示_色"> 色</label>
     <label><input type="checkbox" id="表示_種別"> 種別</label>
     <label><input type="checkbox" id="表示_名称"> 名称</label>
@@ -23,7 +21,6 @@
     <label><input type="checkbox" id="表示_ルールテキスト"> ルールテキスト</label>
     <label><input type="checkbox" id="表示_遺業能力"> 遺業能力</label>
     <label><input type="checkbox" id="表示_Illustlation"> Illustlation</label>
-    <label><input type="checkbox" id="表示_収録"> 収録</label>
     <label><input type="checkbox" id="表示_ゲストコンセプトデザイン"> ゲストコンセプトデザイン</label>
 
     <!-- ★ デフォルト ON -->
@@ -33,7 +30,7 @@
 
   <div id="search-area">
     <input id="名称" placeholder="名称で検索">
-    <input id="カード番号" placeholder="カード番号で検索">
+    <input id="番号" placeholder="番号で検索(No1-1SRなど部分一致)">
     <input id="レアリティ" placeholder="レアリティで検索 (C/R/SR/UR)">
     <input id="色" placeholder="色で検索 (赤/青/緑/黄/紫/無)">
     <input id="種別" placeholder="種別で検索 (イシン/ハイケイ/マホウ/マリョクなど)">
@@ -47,7 +44,8 @@
   </div>
   ルールテキストは半角スペース区切りで複数キーワード検索可能です。<br>
   OR検索は?を使用してください。NOT検索は!を使用してください。<br>
-
+  
+  <div id="hitCount"></div>
 
   <div id="result"></div>
 
