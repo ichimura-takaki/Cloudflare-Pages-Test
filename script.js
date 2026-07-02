@@ -30,6 +30,7 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
     "パワー",
     "特性",
     "ルールテキスト",
+    "遺業能力",
   ];
 
   fields.forEach(field => {
