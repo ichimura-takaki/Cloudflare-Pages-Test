@@ -52,19 +52,27 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
     "ルールテキスト",
     "遺業能力",
   ];
+  const numericFields = new Set(["レベル", "魔力コスト", "パワー"]);
 
   fields.forEach(field => {
     const input = document.getElementById(field);
     if (!input) return;
 
-    const value = input.value;
+    const value = input.value.trim();
     if (!value) return;
 
-    // 数値範囲検索（N-M）
-    if (value.match(/^\d+\-\d+$/)) {
-    const [min, max] = value.split("-").map(Number);
-    query = query.gte(field, min).lte(field, max);
-    return;
+    // 数値検索（N / N-M）
+    if (numericFields.has(field)) {
+      if (value.match(/^\d+$/)) {
+        query = query.eq(field, Number(value));
+        return;
+      }
+
+      if (value.match(/^\d+\-\d+$/)) {
+        const [min, max] = value.split("-").map(Number);
+        query = query.gte(field, min).lte(field, max);
+        return;
+      }
     }
 
     // OR検索（?）
