@@ -13,7 +13,7 @@ https://supabase.com/
 使用しているカラムは以下の通り。<br>
 INTカラムは空白でNULLになります。
 - 収録版(STR)
--カード番号(STR)
+- カード番号(STR)
 - レアリティ(STR)
 - 色(STR)
 - 種別(STR)
