@@ -1,0 +1,129 @@
+const SUPABASE_URL = "https://lxsdiqvyhxokuoofgpor.supabase.co";
+const SUPABASE_KEY = "sb_publishable_r885Rez5bZWiO0nfToFI-w_bqi_zvoU";
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const deckIdInput = document.getElementById("deckIdInput");
+const outputBtn = document.getElementById("outputBtn");
+const shuffleBtn = document.getElementById("shuffleBtn");
+const deckOutput = document.getElementById("deckOutput");
+const handOutput = document.getElementById("handOutput");
+const guardianOutput = document.getElementById("guardianOutput");
+const status = document.getElementById("status");
+let currentCards = [];
+
+function splitDeckId(deckId) {
+  return deckId
+    .split("-")
+    .map(id => id.trim())
+    .filter(Boolean);
+}
+
+function shuffleArray(array) {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function createCardElement(card) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "deck-card";
+
+  const img = document.createElement("img");
+  img.src = card.imageUrl;
+  img.alt = card.id;
+
+  wrapper.appendChild(img);
+  return wrapper;
+}
+
+function renderSection(container, cards) {
+  container.innerHTML = "";
+  cards.forEach(card => container.appendChild(createCardElement(card)));
+}
+
+async function renderDeckCards(deckId) {
+  const ids = splitDeckId(deckId);
+  if (ids.length === 0) {
+    status.textContent = "有効なデッキIDがありません。";
+    deckOutput.innerHTML = "";
+    handOutput.innerHTML = "";
+    guardianOutput.innerHTML = "";
+    return;
+  }
+
+  status.textContent = "処理中です...";
+  deckOutput.innerHTML = "";
+  handOutput.innerHTML = "";
+  guardianOutput.innerHTML = "";
+
+  const cards = [];
+  for (let i = 0; i < ids.length; i++) {
+    const id = ids[i];
+    status.textContent = `処理中です... (${i + 1}/${ids.length})`;
+
+    const { data, error } = await client
+      .from("cards")
+      .select("画像格納先")
+      .eq("カード番号", id);
+
+    if (error) {
+      console.error(error);
+      continue;
+    }
+
+    if (!data || data.length === 0) continue;
+
+    const imgUrl = data[0].画像格納先;
+    if (!imgUrl) continue;
+
+    cards.push({ id, imageUrl: imgUrl });
+  }
+
+  if (cards.length === 0) {
+    status.textContent = "該当するカード画像が見つかりませんでした。";
+    deckOutput.innerHTML = "";
+    handOutput.innerHTML = "";
+    guardianOutput.innerHTML = "";
+    return;
+  }
+
+  currentCards = shuffleArray(cards);
+  const handCards = currentCards.slice(0, 6);
+  const guardianCards = currentCards.slice(6, 10);
+  const remainingCards = currentCards.slice(10);
+
+  status.textContent = `${cards.length} 枚をシャッフルし、手札 ${handCards.length} 枚・ガーディアン ${guardianCards.length} 枚に分けました。`;
+
+  renderSection(deckOutput, remainingCards);
+  renderSection(handOutput, handCards);
+  renderSection(guardianOutput, guardianCards);
+}
+
+outputBtn.addEventListener("click", () => {
+  const deckId = deckIdInput.value.trim();
+  if (!deckId) {
+    status.textContent = "デッキIDを入力してください。";
+    return;
+  }
+
+  renderDeckCards(deckId);
+});
+
+shuffleBtn.addEventListener("click", () => {
+  if (!currentCards.length) {
+    status.textContent = "先に出力してください。";
+    return;
+  }
+
+  currentCards = shuffleArray(currentCards);
+  const handCards = currentCards.slice(0, 6);
+  const guardianCards = currentCards.slice(6, 10);
+  const remainingCards = currentCards.slice(10);
+
+  renderSection(deckOutput, remainingCards);
+  renderSection(handOutput, handCards);
+  renderSection(guardianOutput, guardianCards);
+});

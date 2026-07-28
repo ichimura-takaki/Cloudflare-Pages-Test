@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>イジンデン カード検索</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>イジンデン カード検索</h1>
+
+  <div id="display-options">
+    <label><input type="checkbox" id="表示_名称"> 名称</label>
+    <label><input type="checkbox" id="表示_番号"> 番号</label>
+    <label><input type="checkbox" id="表示_色"> 色</label>
+    <label><input type="checkbox" id="表示_種別"> 種別</label>
+    <label><input type="checkbox" id="表示_レベル"> レベル</label>
+    <label><input type="checkbox" id="表示_魔力コスト"> 魔力コスト</label>
+    <label><input type="checkbox" id="表示_パワー"> パワー</label>
+    <label><input type="checkbox" id="表示_特性"> 特性</label>
+    <label><input type="checkbox" id="表示_ルールテキスト"> ルールテキスト</label>
+    <label><input type="checkbox" id="表示_遺業能力"> 遺業能力</label>
+    <label><input type="checkbox" id="表示_Illustration"> Illustration</label>
+    <label><input type="checkbox" id="表示_ゲストコンセプトデザイン"> ゲストコンセプトデザイン</label>
+
+    <label><input type="checkbox" id="表示_画像格納先" checked> 画像表示</label>
+    <button id="checkAllBtn">全選択</button>
+    <button id="uncheckAllBtn">全解除</button>
+  </div>
+
+  <div id="search-area">
+    <input id="名称" placeholder="名称で検索">
+    <input id="番号" placeholder="番号で検索(No1-1SRなど部分一致)">
+    <input id="色" placeholder="色で検索 (赤/青/緑/黄/紫/無)">
+    <input id="種別" placeholder="種別で検索 (イシン/ハイケイ/マホウ/マリョクなど)">
+    <input id="レベル" placeholder="レベルで検索 (数値)">
+    <input id="魔力コスト" placeholder="魔力コストで検索 (数値)">
+    <input id="パワー" placeholder="パワーで検索 (数値)">
+    <input id="特性" placeholder="特性で検索 (部分一致)">
+    <input id="ルールテキスト" placeholder="ルールテキストで検索 (部分一致)">
+    <input id="遺業能力" placeholder="遺業能力で検索 (部分一致)">
+    <button id="searchBtn">検索</button>
+    <button id="resetBtn">リセット</button>
+  </div>
+
+  画像表示が重ければ <a href="#" id="lightModeLink">軽量モード</a> を使ってください。<br>
+  AND検索は半角スペース、OR検索は?、NOT検索は!を使用してください。<br>
+  数値検索はN、またはN-M(N以上M以下)の形式で検索可能です。<br>
+  デッキIDは<a href="../deck_simulater/index.html" target="_blank">デッキシュミレータ</a>で使ってください。<br>
+
+  <div class="result-header">
+    <div id="hitCount"></div>
+    <div class="deck-actions">
+      <button id="clearDeckIdBtn">クリア</button>
+      <button id="copyDeckIdBtn">コピー</button>
+      <input type="text" id="deckIdOutput" placeholder="デッキIDを表示">
+      <span id="deckCountDisplay" class="deck-count">x0</span>
+    </div>
+  </div>
+
+  <div id="result"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
