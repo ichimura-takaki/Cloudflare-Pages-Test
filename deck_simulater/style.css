@@ -1,0 +1,118 @@
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: sans-serif;
+  background: #f7f7f7;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.controls input {
+  width: 280px;
+  padding: 8px;
+}
+
+.controls button {
+  padding: 8px 12px;
+}
+
+.status {
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+#deck-area {
+  border: 1px solid #ccc;
+  padding: 12px;
+  background: white;
+}
+
+.section-block {
+  margin-bottom: 20px;
+}
+
+.section-block h2 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.deck-output {
+  display: grid;
+  grid-template-columns: repeat(4, 59mm);
+  gap: 3mm;
+  width: 100%;
+  max-width: 210mm;
+  margin: 0 auto;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.deck-card {
+  width: 59mm;
+  height: 86mm;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  overflow: hidden;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.deck-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media print {
+  body {
+    background: white;
+    padding: 0;
+  }
+
+  .controls,
+  .status {
+    display: none !important;
+  }
+
+  #deck-area {
+    border: none;
+    padding: 0;
+  }
+
+  .deck-output {
+    grid-template-columns: repeat(4, 59mm);
+    gap: 3mm;
+    width: 210mm;
+    max-width: none;
+    margin: 0;
+    page-break-before: auto;
+    page-break-after: auto;
+  }
+
+  .section-block {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .section-block h2 {
+    page-break-after: avoid;
+  }
+
+  .deck-card {
+    width: 59mm;
+    height: 86mm;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}

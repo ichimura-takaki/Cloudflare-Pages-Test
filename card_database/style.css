@@ -1,0 +1,112 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+}
+
+#search-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+#search-area input {
+  padding: 8px;
+  width: 180px;
+}
+
+.result-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.deck-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.deck-actions button,
+.add-card-btn {
+  padding: 6px 10px;
+  border: 1px solid #1f4f8b;
+  border-radius: 6px;
+  background: #2f6fbf;
+  color: white;
+  cursor: pointer;
+}
+
+.deck-actions input {
+  padding: 8px;
+  min-width: 240px;
+}
+
+.deck-count {
+  font-weight: bold;
+  color: #2f6fbf;
+  min-width: 32px;
+}
+
+#result {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.card {
+  border: 1px solid #ccc;
+  padding: 12px;
+  width: auto;
+  max-width: 220px;
+  border-radius: 8px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-body p {
+  margin: 0;
+  word-break: break-word;
+}
+
+.card-image {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.card-actions {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.add-card-btn {
+  padding: 5px 9px;
+  font-size: 13px;
+}
+
+.count-label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #333;
+}

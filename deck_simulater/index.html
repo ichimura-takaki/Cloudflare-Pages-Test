@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>デッキシミュレータ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="controls">
+    <input type="text" id="deckIdInput" placeholder="デッキIDを入力">
+    <button id="outputBtn">出力</button>
+    <button id="shuffleBtn">シャッフル</button>
+    イジンデン カード検索は<a href="../card_database/index.html" target="_blank">こちら</a>です。<br>
+  </div>
+
+  <div id="status" class="status">デッキIDを入力してください。</div>
+
+  <div id="deck-area">
+    <div class="section-block">
+      <h2>手札</h2>
+      <div id="handOutput" class="deck-output"></div>
+    </div>
+    <div class="section-block">
+      <h2>ガーディアン</h2>
+      <div id="guardianOutput" class="deck-output"></div>
+    </div>
+    <div class="section-block">
+      <h2>山札</h2>
+      <div id="deckOutput" class="deck-output"></div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

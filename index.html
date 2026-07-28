@@ -1,59 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>イジンデン カード検索</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イジンデン プレイヤーツール</title>
 </head>
 <body>
+    <h1>イジンデン プレイヤーツール</h1>
 
-  <h1>イジンデン カード検索</h1>
-
-  <div id="display-options">
-    <label><input type="checkbox" id="表示_名称"> 名称</label>
-    <label><input type="checkbox" id="表示_番号"> 番号</label>
-    <label><input type="checkbox" id="表示_色"> 色</label>
-    <label><input type="checkbox" id="表示_種別"> 種別</label>
-    <label><input type="checkbox" id="表示_レベル"> レベル</label>
-    <label><input type="checkbox" id="表示_魔力コスト"> 魔力コスト</label>
-    <label><input type="checkbox" id="表示_パワー"> パワー</label>
-    <label><input type="checkbox" id="表示_特性"> 特性</label>
-    <label><input type="checkbox" id="表示_ルールテキスト"> ルールテキスト</label>
-    <label><input type="checkbox" id="表示_遺業能力"> 遺業能力</label>
-    <label><input type="checkbox" id="表示_Illustration"> Illustration</label>
-    <label><input type="checkbox" id="表示_ゲストコンセプトデザイン"> ゲストコンセプトデザイン</label>
-
-    <!-- ★ デフォルト ON -->
-    <label><input type="checkbox" id="表示_画像格納先" checked> 画像表示</label>
-    <button id="checkAllBtn">全選択</button>
-    <button id="uncheckAllBtn">全解除</button>
-  </div>
-
-
-  <div id="search-area">
-    <input id="名称" placeholder="名称で検索">
-    <input id="番号" placeholder="番号で検索(No1-1SRなど部分一致)">
-    <input id="色" placeholder="色で検索 (赤/青/緑/黄/紫/無)">
-    <input id="種別" placeholder="種別で検索 (イシン/ハイケイ/マホウ/マリョクなど)">
-    <input id="レベル" placeholder="レベルで検索 (数値)">
-    <input id="魔力コスト" placeholder="魔力コストで検索 (数値)">
-    <input id="パワー" placeholder="パワーで検索 (数値)">
-    <input id="特性" placeholder="特性で検索 (部分一致)">
-    <input id="ルールテキスト" placeholder="ルールテキストで検索 (部分一致)">
-    <input id="遺業能力" placeholder="遺業能力で検索 (部分一致)">
-    <button id="searchBtn">検索</button>
-    <button id="resetBtn">リセット</button>
-  </div>
-  画像表示が重ければ <a href="#" id="lightModeLink">軽量モード</a> を使ってください。<br>
-  ルールテキストは半角スペース区切りで複数キーワード検索可能です。<br>
-  OR検索は?を使用してください。NOT検索は!を使用してください。<br>
-  数値検索はN(以上)-M(以下)の形式で入力してください。<s>数値検索のところは取り急ぎ適当で許して(^^;</s><br>
-  
-
-  <div id="hitCount"></div>
-  <div id="result"></div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="script.js"></script>
+    <div>
+        <h2>ツール一覧</h2>
+            <a href="card_database/index.html">カード検索</a><br>
+            <a href="deck_simulater/index.html">デッキシミュレータ</a><br>
+    </div>
+    
+    <div>
+        <h2>詳細について</h2>
+            カード情報などは公式サイトのエクセルデータなどから取得しています。<br>
+            <a href="https://github.com/ichimura-takaki/Cloudflare-Pages-Test">GitHubリポジトリ</a>
+        </div>
+    
 </body>
 </html>
