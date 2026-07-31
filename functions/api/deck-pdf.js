@@ -29,8 +29,8 @@ export async function onRequestPost(context) {
   const ids = Array.isArray(body?.ids)
     ? body.ids.filter(id => typeof id === "string" && /^[A-Za-z0-9_]+$/.test(id))
     : [];
-  if (ids.length === 0 || ids.length > 100) {
-    return jsonResponse({ error: "カードIDがありません、または枚数が多すぎます。" }, 400);
+  if (ids.length === 0 || ids.length > 9) {
+    return jsonResponse({ error: "1ページあたりのカード枚数は9枚までです。" }, 400);
   }
 
   const query = new URL(`${SUPABASE_URL}/rest/v1/cards`);
@@ -55,11 +55,10 @@ export async function onRequestPost(context) {
   const horizontalMargin = (A4_WIDTH - (COLUMNS * CARD_WIDTH + (COLUMNS - 1) * GAP)) / 2;
   const verticalMargin = (A4_HEIGHT - (ROWS * CARD_HEIGHT + (ROWS - 1) * GAP)) / 2;
 
-  for (let pageIndex = 0; pageIndex < orderedCards.length; pageIndex += COLUMNS * ROWS) {
-    const page = pdf.addPage([A4_WIDTH, A4_HEIGHT]);
-    const pageCards = orderedCards.slice(pageIndex, pageIndex + COLUMNS * ROWS);
+  const page = pdf.addPage([A4_WIDTH, A4_HEIGHT]);
+  const pageCards = orderedCards;
 
-    for (let index = 0; index < pageCards.length; index++) {
+  for (let index = 0; index < pageCards.length; index++) {
       const card = pageCards[index];
       const imageResponse = await fetch(card.imageUrl);
       if (!imageResponse.ok) continue;
@@ -80,7 +79,6 @@ export async function onRequestPost(context) {
       const x = horizontalMargin + column * (CARD_WIDTH + GAP);
       const y = A4_HEIGHT - verticalMargin - (row + 1) * CARD_HEIGHT - row * GAP;
       page.drawImage(image, { x, y, width: CARD_WIDTH, height: CARD_HEIGHT });
-    }
   }
 
   const pdfBytes = await pdf.save();

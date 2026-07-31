@@ -140,17 +140,32 @@ pdfBtn.addEventListener("click", async () => {
   status.textContent = "PDFを生成しています...";
 
   try {
-    const response = await fetch("../api/deck-pdf", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ids: currentCards.map(card => card.id) })
-    });
-
-    if (!response.ok) {
-      throw new Error(`PDF生成に失敗しました (${response.status})`);
+    if (!window.PDFLib) {
+      throw new Error("PDFライブラリを読み込めませんでした");
     }
 
-    const blob = await response.blob();
+    const mergedPdf = await PDFLib.PDFDocument.create();
+    const pageSize = 9;
+    const ids = currentCards.map(card => card.id);
+
+    for (let start = 0; start < ids.length; start += pageSize) {
+      const response = await fetch("../api/deck-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: ids.slice(start, start + pageSize) })
+      });
+
+      if (!response.ok) {
+        throw new Error(`PDF生成に失敗しました (${response.status})`);
+      }
+
+      const pagePdf = await PDFLib.PDFDocument.load(await response.arrayBuffer());
+      const pages = await mergedPdf.copyPages(pagePdf, pagePdf.getPageIndices());
+      pages.forEach(page => mergedPdf.addPage(page));
+      status.textContent = `PDFを生成しています... (${Math.min(start + pageSize, ids.length)}/${ids.length}枚)`;
+    }
+
+    const blob = new Blob([await mergedPdf.save()], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
