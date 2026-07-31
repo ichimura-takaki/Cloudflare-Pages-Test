@@ -45,7 +45,12 @@ export async function onRequestPost(context) {
   }
 
   const records = await cardsResponse.json();
-  const imageUrls = new Map(records.map(card => [card.カード番号, card.画像格納先]));
+  const imageUrls = new Map();
+  records.forEach(card => {
+    if (!imageUrls.has(card.カード番号)) {
+      imageUrls.set(card.カード番号, card.画像格納先);
+    }
+  });
   const orderedCards = ids.map(id => ({ id, imageUrl: imageUrls.get(id) })).filter(card => card.imageUrl);
   if (orderedCards.length === 0) {
     return jsonResponse({ error: "カード画像が見つかりませんでした。" }, 404);
@@ -57,15 +62,17 @@ export async function onRequestPost(context) {
 
   const page = pdf.addPage([A4_WIDTH, A4_HEIGHT]);
   const pageCards = orderedCards;
+  const embeddedImages = new Map();
 
   for (let index = 0; index < pageCards.length; index++) {
       const card = pageCards[index];
+    let image = embeddedImages.get(card.imageUrl);
+    if (!image) {
       const imageResponse = await fetch(card.imageUrl);
       if (!imageResponse.ok) continue;
 
       const imageBytes = await imageResponse.arrayBuffer();
       const contentType = imageResponse.headers.get("content-type") || "";
-      let image;
       if (contentType.includes("png") || card.imageUrl.toLowerCase().endsWith(".png")) {
         image = await pdf.embedPng(imageBytes);
       } else if (contentType.includes("jpeg") || contentType.includes("jpg") || /\.(jpe?g)(\?|$)/i.test(card.imageUrl)) {
@@ -73,12 +80,14 @@ export async function onRequestPost(context) {
       } else {
         continue;
       }
+      embeddedImages.set(card.imageUrl, image);
+    }
 
-      const column = index % COLUMNS;
-      const row = Math.floor(index / COLUMNS);
-      const x = horizontalMargin + column * (CARD_WIDTH + GAP);
-      const y = A4_HEIGHT - verticalMargin - (row + 1) * CARD_HEIGHT - row * GAP;
-      page.drawImage(image, { x, y, width: CARD_WIDTH, height: CARD_HEIGHT });
+    const column = index % COLUMNS;
+    const row = Math.floor(index / COLUMNS);
+    const x = horizontalMargin + column * (CARD_WIDTH + GAP);
+    const y = A4_HEIGHT - verticalMargin - (row + 1) * CARD_HEIGHT - row * GAP;
+    page.drawImage(image, { x, y, width: CARD_WIDTH, height: CARD_HEIGHT });
   }
 
   const pdfBytes = await pdf.save();
