@@ -145,7 +145,7 @@ pdfBtn.addEventListener("click", async () => {
     }
 
     const mergedPdf = await PDFLib.PDFDocument.create();
-    const pageSize = 9;
+    const pageSize = 3;
     const ids = currentCards.map(card => card.id);
 
     for (let start = 0; start < ids.length; start += pageSize) {

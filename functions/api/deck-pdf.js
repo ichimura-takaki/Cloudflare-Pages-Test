@@ -29,8 +29,8 @@ export async function onRequestPost(context) {
   const ids = Array.isArray(body?.ids)
     ? body.ids.filter(id => typeof id === "string" && /^[A-Za-z0-9_]+$/.test(id))
     : [];
-  if (ids.length === 0 || ids.length > 9) {
-    return jsonResponse({ error: "1ページあたりのカード枚数は9枚までです。" }, 400);
+  if (ids.length === 0 || ids.length > 3) {
+    return jsonResponse({ error: "1回あたりのカード枚数は3枚までです。" }, 400);
   }
 
   const query = new URL(`${SUPABASE_URL}/rest/v1/cards`);
