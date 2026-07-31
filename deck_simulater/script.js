@@ -8,7 +8,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 // ------------------------------
 // Render PDF API の URL
 // ------------------------------
-const PDF_API_URL = "https://ijinden-deck-pdf.onrender.com/deck-pdf";
+const PDF_API_URL = "https://cloudflare-pages-test.onrender.com";
 
 // ------------------------------
 // DOM 要素
