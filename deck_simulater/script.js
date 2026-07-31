@@ -45,6 +45,28 @@ function renderSection(container, cards) {
   cards.forEach(card => container.appendChild(createCardElement(card)));
 }
 
+function wait(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+async function requestPdfPage(ids) {
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const response = await fetch("../api/deck-pdf", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids })
+    });
+
+    if (response.ok) return response;
+
+    if (![502, 503, 504].includes(response.status) || attempt === 3) {
+      throw new Error(`PDF生成に失敗しました (${response.status})`);
+    }
+
+    await wait(attempt * 1000);
+  }
+}
+
 async function renderDeckCards(deckId) {
   const ids = splitDeckId(deckId);
   if (ids.length === 0) {
@@ -149,20 +171,13 @@ pdfBtn.addEventListener("click", async () => {
     const ids = currentCards.map(card => card.id);
 
     for (let start = 0; start < ids.length; start += pageSize) {
-      const response = await fetch("../api/deck-pdf", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids: ids.slice(start, start + pageSize) })
-      });
-
-      if (!response.ok) {
-        throw new Error(`PDF生成に失敗しました (${response.status})`);
-      }
+      const response = await requestPdfPage(ids.slice(start, start + pageSize));
 
       const pagePdf = await PDFLib.PDFDocument.load(await response.arrayBuffer());
       const pages = await mergedPdf.copyPages(pagePdf, pagePdf.getPageIndices());
       pages.forEach(page => mergedPdf.addPage(page));
       status.textContent = `PDFを生成しています... (${Math.min(start + pageSize, ids.length)}/${ids.length}枚)`;
+      await wait(250);
     }
 
     const blob = new Blob([await mergedPdf.save()], { type: "application/pdf" });
