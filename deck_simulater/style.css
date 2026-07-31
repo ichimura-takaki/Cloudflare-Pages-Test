@@ -42,7 +42,7 @@ body {
 
 .deck-output {
   display: grid;
-  grid-template-columns: repeat(4, 59mm);
+  grid-template-columns: repeat(3, 59mm);
   gap: 3mm;
   width: 100%;
   max-width: 210mm;
@@ -89,7 +89,7 @@ body {
   }
 
   .deck-output {
-    grid-template-columns: repeat(4, 59mm);
+    grid-template-columns: repeat(3, 59mm);
     gap: 3mm;
     width: 210mm;
     max-width: none;

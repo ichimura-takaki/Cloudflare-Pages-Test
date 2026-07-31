@@ -5,6 +5,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const deckIdInput = document.getElementById("deckIdInput");
 const outputBtn = document.getElementById("outputBtn");
 const shuffleBtn = document.getElementById("shuffleBtn");
+const pdfBtn = document.getElementById("pdfBtn");
 const deckOutput = document.getElementById("deckOutput");
 const handOutput = document.getElementById("handOutput");
 const guardianOutput = document.getElementById("guardianOutput");
@@ -91,6 +92,7 @@ async function renderDeckCards(deckId) {
   }
 
   currentCards = shuffleArray(cards);
+  pdfBtn.disabled = false;
   const handCards = currentCards.slice(0, 6);
   const guardianCards = currentCards.slice(6, 10);
   const remainingCards = currentCards.slice(10);
@@ -126,4 +128,40 @@ shuffleBtn.addEventListener("click", () => {
   renderSection(deckOutput, remainingCards);
   renderSection(handOutput, handCards);
   renderSection(guardianOutput, guardianCards);
+});
+
+pdfBtn.addEventListener("click", async () => {
+  if (!currentCards.length) {
+    status.textContent = "先に出力してください。";
+    return;
+  }
+
+  pdfBtn.disabled = true;
+  status.textContent = "PDFを生成しています...";
+
+  try {
+    const response = await fetch("../api/deck-pdf", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids: currentCards.map(card => card.id) })
+    });
+
+    if (!response.ok) {
+      throw new Error(`PDF生成に失敗しました (${response.status})`);
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "ijinden-deck.pdf";
+    link.click();
+    URL.revokeObjectURL(url);
+    status.textContent = "PDFをダウンロードしました。A4・カード59×86mmです。";
+  } catch (error) {
+    console.error(error);
+    status.textContent = "PDFの生成に失敗しました。時間をおいて再試行してください。";
+  } finally {
+    pdfBtn.disabled = false;
+  }
 });
