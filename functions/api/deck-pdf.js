@@ -34,8 +34,8 @@ export async function onRequestPost(context) {
   }
 
   const query = new URL(`${SUPABASE_URL}/rest/v1/cards`);
-  query.searchParams.set("select", "カード番号,画像格納先");
-  query.searchParams.set("カード番号", `in.(${[...new Set(ids)].join(",")})`);
+  query.searchParams.set("select", "id,画像格納先");
+  query.searchParams.set("id", `in.(${[...new Set(ids)].join(",")})`);
 
   const cardsResponse = await fetch(query, {
     headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
@@ -47,8 +47,8 @@ export async function onRequestPost(context) {
   const records = await cardsResponse.json();
   const imageUrls = new Map();
   records.forEach(card => {
-    if (!imageUrls.has(card.カード番号)) {
-      imageUrls.set(card.カード番号, card.画像格納先);
+    if (!imageUrls.has(String(card.id))) {
+      imageUrls.set(String(card.id), card.画像格納先);
     }
   });
   const orderedCards = ids.map(id => ({ id, imageUrl: imageUrls.get(id) })).filter(card => card.imageUrl);

@@ -68,7 +68,7 @@ async function renderDeckCards(deckId) {
     const { data, error } = await client
       .from("cards")
       .select("画像格納先")
-      .eq("カード番号", id);
+      .eq("id", id);
 
     if (error) {
       console.error(error);
