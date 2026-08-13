@@ -2,14 +2,14 @@
 https://cloudflare-pages-test-ehv.pages.dev/
 - 上記URLでイジンデンのカードを検索するツールです。
 
-# DBの詳細について
-- URL
-** https://lxsdiqvyhxokuoofgpor.supabase.co **
+## DBの詳細について
+### URL
+` https://lxsdiqvyhxokuoofgpor.supabase.co`
 
-- anon key (publishable key)
-** sb_publishable_r885Rez5bZWiO0nfToFI-w_bqi_zvoU **
+### anon key (publishable key)
+` sb_publishable_r885Rez5bZWiO0nfToFI-w_bqi_zvoU`
 
-- DBの中身をみたい人へ
+### DBの中身をみたい人へ
 windowsなら「win+R」押下後に「cmd」で検索して実行するか、macならターミナルで実行してください。
 ```bash
 # DBの中身を丸ごと取得する
