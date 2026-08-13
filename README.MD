@@ -11,7 +11,7 @@ sb_publishable_r885Rez5bZWiO0nfToFI-w_bqi_zvoU
 
 - DBの中身をみたい人へ
 windowsなら「win+R」押下後に「cmd」で検索して実行するか、macならターミナルで実行してください。
-```bash```
+```bash
 # DBの中身を丸ごと取得する
 curl \
   -H "apikey: sb_publishable_r885Rez5bZWiO0nfToFI-w_bqi_zvoU" \
