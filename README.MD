@@ -1,6 +1,6 @@
 # 概要
 https://cloudflare-pages-test-ehv.pages.dev/
-上記URLでイジンデンのカードを検索するツールです。
+- 上記URLでイジンデンのカードを検索するツールです。
 
 ## 使用ツール
 https://dash.cloudflare.com/
