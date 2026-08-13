@@ -91,27 +91,59 @@ function addCardToDeck(card) {
     return;
   }
 
-  deckList.push({
-    id: uniqueId,
-    name: card.名称 || "名称未設定",
-    number: card.番号 || ""
-  });
+  // Use deckIdOutput as single source of truth: append the id string and sync
+  const input = document.getElementById("deckIdOutput");
+  if (!input) return;
 
-  const countValue = deckCounts[uniqueId] ? deckCounts[uniqueId] + 1 : 1;
-  deckCounts[uniqueId] = countValue;
+  const current = input.value.trim();
+  const parts = current ? current.split("-").map(p => p.trim()).filter(Boolean) : [];
+  parts.push(uniqueId);
+  input.value = parts.join("-");
+  syncDeckStateFromText();
+}
 
-  updateDeckIdText();
+function removeCardFromDeckById(uniqueId) {
+  if (uniqueId === undefined || uniqueId === null) return;
+
+  const uid = String(uniqueId).trim();
+
+  // Update deckIdOutput (single source of truth)
+  const input = document.getElementById("deckIdOutput");
+  if (!input) {
+    // fallback: remove from deckList if input missing
+    const idxFallback = deckList.findIndex(item => String(item.id) === uid);
+    if (idxFallback !== -1) {
+      deckList.splice(idxFallback, 1);
+      deckCounts[uid] = (deckCounts[uid] || 1) - 1;
+      if (deckCounts[uid] <= 0) delete deckCounts[uid];
+      updateDeckIdText();
+    }
+    return;
+  }
+
+  const parts = input.value.split("-").map(p => p.trim()).filter(Boolean);
+  const idx = parts.findIndex(p => p === uid);
+  if (idx !== -1) {
+    parts.splice(idx, 1);
+    input.value = parts.join("-");
+    syncDeckStateFromText();
+  } else {
+    // no direct match — try numeric/string-insensitive match
+    const idx2 = parts.findIndex(p => String(p) === uid);
+    if (idx2 !== -1) {
+      parts.splice(idx2, 1);
+      input.value = parts.join("-");
+      syncDeckStateFromText();
+    }
+  }
 }
 
 function clearDeckId() {
-  deckList = [];
-  deckCounts = {};
   const input = document.getElementById("deckIdOutput");
   if (input) {
     input.value = "";
   }
-  updateCounterLabels();
-  updateDeckCountDisplay();
+  syncDeckStateFromText();
 }
 
 // ✔ チェックボックス全選択
@@ -171,6 +203,51 @@ if (copyDeckIdBtn) {
     } catch (error) {
       console.error(error);
       alert("コピーに失敗しました");
+    }
+  });
+}
+
+// デッキIDのカードを全て表示するボタン
+const deckSearchBtn = document.getElementById("deckSearchBtn");
+if (deckSearchBtn) {
+  deckSearchBtn.addEventListener("click", async () => {
+    // Build ids list from deckIdOutput (allow duplicates) and sync state
+    const input = document.getElementById("deckIdOutput");
+    let idsAll = [];
+    if (input && input.value.trim()) {
+      idsAll = input.value.split("-").map(p => p.trim()).filter(Boolean);
+    } else {
+      // fallback to current deckList
+      idsAll = deckList.map(d => d.id).filter(Boolean);
+      if (idsAll.length > 0 && input) {
+        input.value = idsAll.join("-");
+      }
+    }
+
+    if (idsAll.length === 0) {
+      alert("デッキIDがありません");
+      return;
+    }
+
+    // ensure internal state is synced from text
+    if (input) syncDeckStateFromText();
+
+    const uniqueIds = Array.from(new Set(idsAll));
+
+    try {
+      const { data, error } = await client.from("cards").select("*").in("id", uniqueIds);
+      if (error) {
+        console.error(error);
+        alert("カード取得に失敗しました");
+        return;
+      }
+
+      // レンダリング（各カードのカウントラベルは deckCounts を参照して表示されます）
+      renderCards(data || []);
+      updateCounterLabels();
+    } catch (err) {
+      console.error(err);
+      alert("検索に失敗しました");
     }
   });
 }
@@ -245,6 +322,7 @@ if (searchBtn) {
     if (error) console.error(error);
 
     renderCards(data);
+    updateCounterLabels();
   });
 }
 
@@ -257,6 +335,7 @@ if (resetBtn) {
 
     const { data } = await client.from("cards").select("*");
     renderCards(data);
+    updateCounterLabels();
   });
 }
 
@@ -319,7 +398,16 @@ function renderCards(cards) {
     countLabel.dataset.cardId = getCardIdentifier(card) || "";
     countLabel.textContent = "x0";
 
+    const removeButton = document.createElement("button");
+    removeButton.className = "remove-card-btn";
+    removeButton.textContent = "削除";
+    removeButton.addEventListener("click", () => {
+      const uid = getCardIdentifier(card);
+      removeCardFromDeckById(uid);
+    });
+
     actions.appendChild(addButton);
+    actions.appendChild(removeButton);
     actions.appendChild(countLabel);
     div.appendChild(actions);
 
