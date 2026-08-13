@@ -7,7 +7,8 @@
 </head>
 <body>
 
-  <h1>イジンデン カード検索</h1>
+  <div data-include="../common/header.html"></div>
+  <h2>カード検索</h2>
 
   <div id="display-options">
     <label><input type="checkbox" id="表示_名称"> 名称</label>
@@ -62,6 +63,8 @@
   <div id="result"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="../common/include-html.js"></script>
   <script src="script.js"></script>
+  <div data-include="../common/footer.html"></div>
 </body>
 </html>

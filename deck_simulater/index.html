@@ -6,7 +6,9 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div data-include="../common/header.html"></div>
 
+  <h2>デッキシミュレータ</h2>
   <div class="controls">
     <input type="text" id="deckIdInput" placeholder="デッキIDを入力">
     <button id="outputBtn">出力</button>
@@ -35,6 +37,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="../common/include-html.js"></script>
   <script src="script.js?v=37b01fd"></script>
+  <div data-include="../common/footer.html"></div>
 </body>
 </html>
