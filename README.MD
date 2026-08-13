@@ -12,6 +12,10 @@ https://cloudflare-pages-test-ehv.pages.dev/
 ### DBの中身をみたい人へ
 windowsなら「win+R」押下後に「cmd」で検索して実行するか、macならターミナルで実行してください。
 ```bash
+# 保存先のディレクトリに移動する
+cd C:\Users\ USER \Downloads
+```
+```bash
 # DBの中身を丸ごと取得する
 curl \
   -H "apikey: sb_publishable_r885Rez5bZWiO0nfToFI-w_bqi_zvoU" \
@@ -40,6 +44,7 @@ https://dashboard.render.com/
 - カード削除ボタンを追加しました。
 - デッキ検索の機能を実装しました。
 - ヘッダーとフッターを追加しました。
+- DBにポリシーを追加して公開しました。
 
 2026/07/31
 - デッキシミュレータのPDF出力に対応しました。<br>
