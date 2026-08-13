@@ -4,10 +4,10 @@ https://cloudflare-pages-test-ehv.pages.dev/
 
 # DBの詳細について
 - URL
-*** https://lxsdiqvyhxokuoofgpor.supabase.co ***
+** https://lxsdiqvyhxokuoofgpor.supabase.co **
 
 - anon key (publishable key)
-*** sb_publishable_r885Rez5bZWiO0nfToFI-w_bqi_zvoU ***
+** sb_publishable_r885Rez5bZWiO0nfToFI-w_bqi_zvoU **
 
 - DBの中身をみたい人へ
 windowsなら「win+R」押下後に「cmd」で検索して実行するか、macならターミナルで実行してください。
@@ -18,7 +18,8 @@ curl \
   -H "Authorization: Bearer sb_publishable_r885Rez5bZWiO0nfToFI-w_bqi_zvoU" \
   "https://lxsdiqvyhxokuoofgpor.supabase.co/rest/v1/cards?select=*" \
   -o cards.json
-
+```
+```bash
 # json形式からCSV形式に変換する
 jq -r '(.[0] | keys_unsorted) as $keys |
       $keys, map([.[ $keys[] ]])[] | @csv' cards.json > cards.csv
